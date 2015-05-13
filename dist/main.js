@@ -1,7 +1,29 @@
 function* guessingGame() {
-	console.log(yield game.say('Hey there!'));
-	console.log(yield game.say('Woah', 'This is cool'));
-	console.log(yield game.ask('Woah', 'This is cool'));
-	console.log(yield game.choose('Woah', 'This is cool', 'Hello world'));
-	console.log(yield game.say('That\'s all folks!', 'THE END'));
+	yield game.say('Hey there!');
+	var guess = false;
+	var done = false;
+	
+	while(!done) {
+		while(!guess) {
+			var num = (Math.floor(Math.random()*(100-1))+1);
+			var numGuessed = yield game.ask("Guess a number between 1 and 100!");
+			// numGuessed = parseInt(numGuessed);
+			if (numGuessed === num) {
+				var decide = yield game.choose("Good guess! Would you like to play again?", "Yes", "No");
+					if (decide === "Yes") {
+						guessGame();
+					} else {
+						guess = true;
+						done = true;
+						game.end("Ok, bye!");
+					}
+			} else if (numGuessed>num) {
+				yield game.say("You guessed too high! Try again.");
+			} else {
+				yield game.say("You guessed too low! Try again.");
+			}
+		}
+	}
+	guessGame();
+
 }
