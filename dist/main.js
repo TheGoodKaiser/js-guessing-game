@@ -5,7 +5,7 @@ function* guessingGame() {
 	
 	while(!done) {
 		while(!guess) {
-			var num = 1;
+			var num = (Math.floor(Math.random()*(100-1))+1);
 			var numGuessed = yield game.ask("Guess a number between 1 and 100!");
 			numGuessed = parseInt(numGuessed);
 			if (numGuessed === num) {
